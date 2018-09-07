@@ -1,0 +1,109 @@
+//SLEEPING/////BARBER////PROBLEm//
+
+/////////////////////////////ALGORITHM/////////////////////////////
+
+Semaphore Customers = 0;
+Semaphore Barber = 0;
+Mutex Seats = 1;
+int FreeSeats = N;
+ 
+Barber {
+      while(true) {
+            /* waits for a customer (sleeps). */
+            down(Customers);
+ 
+            /* mutex to protect the number of available seats.*/
+            down(Seats);
+ 
+            /* a chair gets free.*/
+            FreeSeats++;
+            
+            /* bring customer for haircut.*/
+            up(Barber);
+            
+            /* release the mutex on the chair.*/
+            up(Seats);
+            /* barber is cutting hair.*/
+      }
+}
+ 
+Customer {
+      while(true) {
+            /* protects seats so only 1 customer tries to sit
+               in a chair if that's the case.*/
+            down(Seats);
+            if(FreeSeats > 0) {
+                  
+                  /* sitting down.*/
+                  FreeSeats--;
+                  
+                  /* notify the barber. */
+                  up(Customers);
+                  
+                  /* release the lock */
+                  up(Seats);
+                  
+                  /* wait in the waiting room if barber is busy. */
+                  down(Barber);
+                  // customer is having hair cut
+            } else {
+                  /* release the lock */
+                  up(Seats);
+                  // customer leaves
+            }
+      }
+}
+
+///////////////////////////CLASS//////////////////////////
+/*
+
+shared data: 
+customer=0;
+barber=0;
+mutex=1;
+waiting=0;
+chairs=5;
+
+
+*/
+
+
+////////////////barber///////////////////////
+
+while()
+{
+	wait(customer);
+	wait(mutex);
+	wait--;
+	signal(barber);	
+	signal(mutex);
+	cut-hair();
+
+}
+
+///////////////customer////////////////////
+
+while()
+{
+
+while(true)
+{
+	wait(mutex)
+	if(wait < chair)
+	{
+	waiting++;	
+	signal(customer);
+	signal(mutex);
+	wait(barber);
+	.
+	.
+	get-haircut();
+	
+	}
+	else{
+	signal(mutex);	
+	}
+
+}
+
+}
