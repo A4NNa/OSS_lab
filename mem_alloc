@@ -1,0 +1,81 @@
+#include<stdio.h>
+#define MAX 5
+void main()
+
+{
+int m[MAX],i,f,flag=1,j;
+int max=0,valid=1,n;
+
+printf("How many files you want to Store ? \n");
+scanf("%d",&n);
+
+printf("Enter Empty Memory Spaces(in KB)\n");
+
+for(i=0;i<MAX;i++)
+scanf("%d",&m[i]);
+
+//Max value
+for(i=0;i<MAX;i++)
+{
+if(max<=m[i])
+{
+max=m[i];
+}
+}
+
+//printf("\n\nmaximum=%d\n\n",max);
+//.....................................
+
+
+//Print Available Storage
+for(i=0;i<MAX;i++)
+printf("m%d=%dKB\n",i,m[i]);
+
+for(k=0;k<n;k++)
+{
+	//Input file Size
+printf("Enter file size(in KB)\n");
+scanf("%d",&f);
+
+if(f>max)
+{
+printf("no block available(ERR_FILE_TOO_BIG)\n\n");
+valid=0;
+}
+//.....................First Fit........................
+
+if(valid)
+{
+for(i=0;flag;i++)
+{
+if(m[i]>f)
+{
+j=i;
+flag=0;
+}
+
+}
+
+printf("file of size %dKB is Stored in m%d block .",f,j);
+m[j] = m[j] - f;
+printf("\n\nAvailable Storage \n");
+
+for(i=0;i<MAX;i++)
+printf("m%d=%dKB\n",i,m[i]);
+
+}
+}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
